@@ -60,7 +60,7 @@ class _BashSession:
 
         self._started = True
 
-    def stop(self) -> None:
+    async def stop(self) -> None:
         """Terminate the bash shell."""
         if not self._started:
             raise ToolError("Session has not started.")
@@ -69,6 +69,7 @@ class _BashSession:
         if self._process.returncode is not None:
             return
         self._process.terminate()
+        await self._process.wait()
 
     async def run(self, command: str) -> ToolExecResult:
         """Execute a command in the bash shell."""
@@ -125,7 +126,7 @@ class _BashSession:
 
                         error_code = int(error_code_str)
                         break
-        except asyncio.TimeoutError:
+        except TimeoutError:
             self._timed_out = True
             raise ToolError(
                 f"timed out: bash has not returned in {self._timeout} seconds and must be restarted",
@@ -199,7 +200,7 @@ class BashTool(Tool):
     async def execute(self, arguments: ToolCallArguments) -> ToolExecResult:
         if arguments.get("restart"):
             if self._session:
-                self._session.stop()
+                await self._session.stop()
             self._session = _BashSession()
             await self._session.start()
 

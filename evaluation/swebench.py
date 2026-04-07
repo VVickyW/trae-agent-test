@@ -67,7 +67,7 @@ class SWEBenchEvaluation:
         self.run_id = run_id
 
         if docker_env_config != "":
-            with open(docker_env_config, "r") as f:
+            with open(docker_env_config) as f:
                 self.docker_env_config: dict[str, dict[str, str]] = json.load(f)
         else:
             self.docker_env_config = {}
@@ -183,7 +183,7 @@ class SWEBenchEvaluation:
                 print(traceback.format_exc())
                 break
             if return_code is not None and return_code != 0:
-                print("Docker exec error. Error message: {}".format(output))
+                print(f"Docker exec error. Error message: {output}")
                 exit(-1)
 
         with open(self.working_dir / "trae-agent.tar", "wb") as f:
@@ -251,7 +251,7 @@ class SWEBenchEvaluation:
                 new_command = f'/bin/bash -c "{command}"'
                 return_code, output = docker_exec(container, new_command)
                 if return_code is not None and return_code != 0:
-                    print("Docker exec error. Error message: {}".format(output))
+                    print(f"Docker exec error. Error message: {output}")
             except Exception:
                 print(f"{command} failed.")
                 print(traceback.format_exc())
@@ -284,7 +284,7 @@ class SWEBenchEvaluation:
         try:
             return_code, output = docker_exec(container, new_command)
             if return_code is not None and return_code != 0:
-                print("Docker exec error. Error message: {}".format(output))
+                print(f"Docker exec error. Error message: {output}")
         except Exception:
             print(f"{command} failed.")
             print(traceback.format_exc())
@@ -342,7 +342,7 @@ class SWEBenchEvaluation:
             patch_path = self.working_dir / instance_id / f"{instance_id}.patch"
             if not patch_path.exists():
                 continue
-            with open(patch_path, "r") as f:
+            with open(patch_path) as f:
                 patch = f.read()
             preds.append(
                 {

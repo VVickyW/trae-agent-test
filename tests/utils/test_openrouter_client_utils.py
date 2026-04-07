@@ -12,6 +12,7 @@ setting: to avoid
 
 import os
 import unittest
+from unittest.mock import MagicMock, patch
 
 from trae_agent.utils.config import ModelConfig, ModelProvider
 from trae_agent.utils.llm_clients.llm_basics import LLMMessage
@@ -69,10 +70,18 @@ class TestOpenRouterClient(unittest.TestCase):
         openrouter_client.set_chat_history(messages=[message])
         self.assertTrue(True)  # runnable
 
-    def test_openrouter_chat(self):
+    @patch("trae_agent.utils.llm_clients.openrouter_client.openai.OpenAI")
+    def test_openrouter_chat(self, mock_openai):
         """
         There is nothing we have to assert for this test case just see if it can run
         """
+        mock_client = MagicMock()
+        mock_response = MagicMock()
+        mock_response.choices = [MagicMock()]
+        mock_response.choices[0].message.content = "Hello from OpenRouter mock"
+        mock_response.choices[0].message.tool_calls = None
+        mock_client.chat.completions.create.return_value = mock_response
+        mock_openai.return_value = mock_client
         model_config = ModelConfig(
             TEST_MODEL,
             model_provider=ModelProvider(

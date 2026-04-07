@@ -206,6 +206,11 @@ class OpenAICompatibleClient(BaseLLMClient):
 
         return llm_response
 
+    @override
+    def supports_tool_calling(self, model_config: ModelConfig) -> bool:
+        """Check if the model supports tool calling."""
+        return self.provider_config.supports_tool_calling(model_config.model)
+
     def parse_messages(self, messages: list[LLMMessage]) -> list[ChatCompletionMessageParam]:
         """Parse LLM messages to OpenAI format."""
         openai_messages: list[ChatCompletionMessageParam] = []
