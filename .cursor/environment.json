@@ -1,0 +1,3 @@
+{
+  "update_script": "curl -LsSf https://astral.sh/uv/install.sh | sh\nsource $HOME/.local/bin/env\nuv sync --all-extras"
+}
