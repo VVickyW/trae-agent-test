@@ -89,7 +89,8 @@ select = [
     "SIM",
     "C4",
     "E4", "E9", "E7", "F",
-    "I"
+    "I",
+    "UP"
 ]
 
 [dependency-groups]
