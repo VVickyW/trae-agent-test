@@ -160,7 +160,7 @@ JSONPath syntax supported:
             raise ToolError(f"File does not exist: {file_path}")
 
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read().strip()
                 if not content:
                     raise ToolError(f"File is empty: {file_path}")

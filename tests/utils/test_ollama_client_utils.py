@@ -11,6 +11,7 @@ WARNING: This Ollama test should not be used in the GitHub Actions workflow, as 
 
 import os
 import unittest
+from unittest.mock import MagicMock, patch
 
 from trae_agent.utils.config import ModelConfig, ModelProvider
 from trae_agent.utils.llm_clients.llm_basics import LLMMessage
@@ -73,10 +74,15 @@ class TestOllamaClient(unittest.TestCase):
         ollama_client.set_chat_history(messages=[message])
         self.assertTrue(True)  # runnable
 
-    def test_ollama_chat(self):
+    @patch("trae_agent.utils.llm_clients.ollama_client.ollama_chat")
+    def test_ollama_chat(self, mock_ollama_chat):
         """
         There is nothing we have to assert for this test case just see if it can run
         """
+        mock_response = MagicMock()
+        mock_response.message.tool_calls = None
+        mock_response.message.content = "Hello from mock"
+        mock_ollama_chat.return_value = mock_response
         model_config = ModelConfig(
             TEST_MODEL,
             model_provider=ModelProvider(
@@ -118,7 +124,7 @@ class TestOllamaClient(unittest.TestCase):
         )
         ollama_client = OllamaClient(model_config)
         self.assertEqual(ollama_client.supports_tool_calling(model_config), True)
-        model_config.model = "no such model"
+        model_config.supports_tool_calling = False
         self.assertEqual(ollama_client.supports_tool_calling(model_config), False)
 
 

@@ -7,10 +7,10 @@ import asyncio
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import TypeAlias, override
+from typing import override
 
-ParamSchemaValue: TypeAlias = str | list[str] | bool | dict[str, object]
-Property: TypeAlias = dict[str, ParamSchemaValue]
+type ParamSchemaValue = str | list[str] | bool | dict[str, object]
+type Property = dict[str, ParamSchemaValue]
 
 
 class ToolError(Exception):

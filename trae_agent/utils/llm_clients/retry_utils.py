@@ -4,13 +4,12 @@
 import random
 import time
 import traceback
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable, TypeVar
-
-T = TypeVar("T")
+from typing import Any
 
 
-def retry_with(
+def retry_with[T](
     func: Callable[..., T],
     provider_name: str = "OpenAI",
     max_retries: int = 3,

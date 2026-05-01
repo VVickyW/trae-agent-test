@@ -102,7 +102,7 @@ class RichConsoleApp(App[None]):
 
     def __init__(self, console_impl: "RichCLIConsole"):
         super().__init__()
-        self.console_impl: "RichCLIConsole" = console_impl
+        self.console_impl: RichCLIConsole = console_impl
         self.execution_log: RichLog | None = None
         self.task_input: Input | None = None
         self.task_display: Static | None = None
