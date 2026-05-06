@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气查看应用</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌤️ 天气查看</h1>
+            <p class="subtitle">查询全球城市实时天气</p>
+        </header>
+
+        <div class="search-box">
+            <input type="text" id="city-input" placeholder="输入城市名称（如：北京、上海、Tokyo）" autocomplete="off">
+            <button id="search-btn">查询</button>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>正在获取天气数据...</p>
+        </div>
+
+        <div id="error" class="error hidden"></div>
+
+        <div id="weather-result" class="weather-result hidden">
+            <div class="current-weather">
+                <div class="location-info">
+                    <h2 id="location-name"></h2>
+                    <p id="location-detail"></p>
+                </div>
+                <div class="weather-main">
+                    <span id="weather-icon" class="weather-icon"></span>
+                    <div class="temperature">
+                        <span id="current-temp"></span>
+                        <span class="unit">°C</span>
+                    </div>
+                </div>
+                <p id="weather-desc" class="weather-desc"></p>
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <span class="label">体感温度</span>
+                        <span id="feels-like" class="value"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">湿度</span>
+                        <span id="humidity" class="value"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">风速</span>
+                        <span id="wind-speed" class="value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forecast">
+                <h3>7 天预报</h3>
+                <div id="forecast-list" class="forecast-list"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：<a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> | 免费开源天气 API</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
